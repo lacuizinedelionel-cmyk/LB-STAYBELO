@@ -10,7 +10,7 @@ import {
   Calendar, Package, ClipboardList, Zap, ChevronDown,
   BedDouble, CreditCard, TrendingUp, Star, ShoppingCart,
   UserCheck, BookOpen, Activity, Wallet, Shield, MessageSquare,
-  BarChart3, Receipt, Menu, X,
+  BarChart3, Receipt, Menu, X, HelpCircle,
 } from 'lucide-react';
 import { usePermissions } from '@/hooks/usePermissions';
 import { useLanguage } from '@/context/LanguageContext';
@@ -113,10 +113,10 @@ const DEMO_ENSEIGNES: Enseigne[] = [
 function AccordionEnsigne({ enseigne, defaultOpen = false }: { enseigne: Enseigne; defaultOpen?: boolean; }) {
   const [open, setOpen] = useState(defaultOpen);
   const [location] = useLocation();
-  const cfg = SECTOR_CFG[enseigne.sector];
-  const Icon = cfg.icon;
-  const items = SUB_MENUS[enseigne.sector];
-  const isAnyActive = items.some(it => location === it.href || location.startsWith(it.href + '/'));
+  const cfg = SECTOR_CFG[enseigne.sector] ?? { label: '—', icon: HelpCircle, color: '#888', bg: 'hsl(var(--muted))', gradient: 'hsl(var(--muted))' };
+  const Icon = cfg?.icon || HelpCircle;
+  const items = SUB_MENUS[enseigne.sector] ?? [];
+  const isAnyActive = items.length > 0 && items.some(it => location === it.href || location.startsWith(it.href + '/'));
 
   return (
     <div className="rounded-xl overflow-hidden" style={{ border: `1px solid ${isAnyActive ? cfg.color + '40' : 'hsl(var(--border))'}` }}>
